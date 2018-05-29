@@ -1,0 +1,72 @@
+<dotnetnuke type="Package" version="5.0">
+  <packages>
+    <package name="Auth0_Authentication" type="Auth_System" version="09.02.00">
+      <friendlyName>Auth0 Authentication Project</friendlyName>
+      <description>The Auth0 Authentication Project is an Authentication provider for DNN Platform that uses 
+        Auth0 to authenticate users.
+      </description>
+      <owner>
+        <name>Joe Brinkman</name>
+        <url>http://joe.brinkman.me</url>
+        <email>joe@brinkman.me</email>
+      </owner>
+      <license src="license.txt" />
+      <releaseNotes src="releasenotes.txt"/>
+      <azureCompatible>true</azureCompatible>
+      <dependencies>
+        <dependency type="CoreVersion">07.00.00</dependency>
+      </dependencies>
+      <components>
+        <component type="AuthenticationSystem">
+          <authenticationService>
+            <type>Auth0</type>
+            <settingsControlSrc>DesktopModules/AuthenticationServices/Auth0/Settings.ascx</settingsControlSrc>
+            <loginControlSrc>DesktopModules/AuthenticationServices/Auth0/Login.ascx</loginControlSrc>
+            <logoffControlSrc/>
+          </authenticationService>
+        </component>
+        <component type="Assembly">
+          <assemblies>
+            <assembly>
+              <path>bin</path>
+              <name>Dnn.Authentication.Auth0.dll</name>
+            </assembly>
+          </assemblies>
+        </component>
+        <component type="File">
+          <files>
+            <basePath>DesktopModules/AuthenticationServices/Auth0</basePath>
+            <file>
+              <path>App_LocalResources</path>
+              <name>Login.ascx.resx</name>
+            </file>
+            <file>
+              <path>App_LocalResources</path>
+              <name>Settings.ascx.resx</name>
+            </file>
+            <file>
+              <path>Images</path>
+              <name>Auth0-32X32.png</name>
+            </file>
+            <file>
+              <path>Images</path>
+              <name>Auth0-16X16.png</name>
+            </file>
+            <file>
+              <name>Login.ascx</name>
+            </file>
+            <file>
+              <name>Settings.ascx</name>
+            </file>
+            <file>
+              <name>license.txt</name>
+            </file>
+            <file>
+              <name>releasenotes.txt</name>
+            </file>
+          </files>
+        </component>
+      </components>
+    </package>
+  </packages>
+</dotnetnuke>
