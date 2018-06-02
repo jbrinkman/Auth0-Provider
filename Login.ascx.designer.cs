@@ -13,15 +13,6 @@ namespace Dnn.Authentication.Auth0 {
     public partial class Login {
         
         /// <summary>
-        /// loginItem control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl loginItem;
-        
-        /// <summary>
         /// loginButton control.
         /// </summary>
         /// <remarks>
@@ -29,23 +20,5 @@ namespace Dnn.Authentication.Auth0 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton loginButton;
-        
-        /// <summary>
-        /// registerItem control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl registerItem;
-        
-        /// <summary>
-        /// registerButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton registerButton;
     }
 }

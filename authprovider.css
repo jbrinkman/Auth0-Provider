@@ -1,0 +1,15 @@
+﻿.Auth0-Login {
+    margin: 1em;
+    display: inline-block;
+    background-image: url("Images/Auth0-16x16.png");
+    background-repeat: no-repeat;
+    background-position: 1em center;
+    padding: .5em 1em;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.Auth0-Login > span {
+    margin-left: 2em;
+}

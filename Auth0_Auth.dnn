@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="Auth0_Authentication" type="Auth_System" version="09.02.00">
+    <package name="Auth0_Authentication" type="Auth_System" version="01.00.00">
       <friendlyName>Auth0 Authentication Project</friendlyName>
       <description>The Auth0 Authentication Project is an Authentication provider for DNN Platform that uses 
         Auth0 to authenticate users.

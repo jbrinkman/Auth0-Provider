@@ -1,62 +1,70 @@
-﻿#region Usings
-
-using System;
-using System.Globalization;
-
+﻿using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Portals;
-using DotNetNuke.Common.Utilities;
-using DotNetNuke.Services.Authentication; 
-
-#endregion
+using DotNetNuke.Services.Authentication;
+using DotNetNuke.UI.WebControls;
+using System.Globalization;
 
 namespace Dnn.Authentication.Auth0.Components
 {
-    /// <summary>
-    /// The Config class provides a central area for management of Module Configuration Settings.
-    /// </summary>
-    [Serializable]
     public class Auth0ConfigBase : AuthenticationConfigBase
     {
+
+        #region Constants
+
+        private const string _Service = "Auth0";
         private const string _cacheKey = "Authentication";
+        private const string _ClientId = "_ClientId";
+        private const string _ClientSecret = "_ClientSecret";
+        private const string _ConnectionName = "_ConnectionName";
+        private const string _TenantDomain = "_TenantDomain";
+        private const string _Enabled = "_Enabled";
 
-        protected Auth0ConfigBase(string service, int portalId)
-            : base(portalId)
+        #endregion
+
+        protected Auth0ConfigBase(int portalId) : base(portalId)
         {
-            Service = service;
-
-            APIKey = PortalController.GetPortalSetting(Service + "_APIKey", portalId, "");
-            APISecret = PortalController.GetPortalSetting(Service + "_APISecret", portalId, "");
-            Auth0Domain = PortalController.GetPortalSetting(Service + "_Auth0Domain", portalId, "");
-            Enabled = PortalController.GetPortalSettingAsBoolean(Service + "_Enabled", portalId, false);
+            ClientId = PortalController.GetPortalSetting(_Service + _ClientId, portalId, "");
+            ClientSecret = PortalController.GetPortalSetting(_Service + _ClientSecret, portalId, "");
+            ConnectionName = PortalController.GetPortalSetting(_Service + _ConnectionName, portalId, "");
+            TenantDomain = PortalController.GetPortalSetting(_Service + _TenantDomain, portalId, "");
+            Enabled = PortalController.GetPortalSettingAsBoolean(_Service + _Enabled, portalId, false);
         }
 
-        protected string Service { get; set; }
+        #region Properties
 
-        public string APIKey { get; set; }
+        [SortOrder(1)]
+        public string ClientId { get; set; }
 
-        public string APISecret { get; set; }
+        [SortOrder(2)]
+        public string ClientSecret { get; set; }
 
-        public string Auth0Domain { get; set; }
+        [SortOrder(3)]
+        public string ConnectionName { get; set; }
+
+        [SortOrder(0)]
+        public string TenantDomain { get; set; }
 
         public bool Enabled { get; set; }
 
-        private static string GetCacheKey(string service, int portalId)
+        #endregion
+
+        private static string GetCacheKey(int portalId)
         {
-            return _cacheKey + "." + service + "_" + portalId;
+            return $"{_cacheKey}.{_Service}_{portalId}";
         }
 
-        public static void ClearConfig(string service, int portalId)
+        public static void ClearConfig(int portalId)
         {
-            DataCache.RemoveCache(GetCacheKey(service, portalId));
+            DataCache.RemoveCache(GetCacheKey(portalId));
         }
 
-        public static Auth0ConfigBase GetConfig(string service, int portalId)
+        public static Auth0ConfigBase GetConfig(int portalId)
         {
-            string key = GetCacheKey(service, portalId);
+            string key = GetCacheKey(portalId);
             var config = (Auth0ConfigBase)DataCache.GetCache(key);
             if (config == null)
             {
-                config = new Auth0ConfigBase(service, portalId);
+                config = new Auth0ConfigBase(portalId);
                 DataCache.SetCache(key, config);
             }
             return config;
@@ -64,11 +72,12 @@ namespace Dnn.Authentication.Auth0.Components
 
         public static void UpdateConfig(Auth0ConfigBase config)
         {
-            PortalController.UpdatePortalSetting(config.PortalID, config.Service + "_APIKey", config.APIKey);
-            PortalController.UpdatePortalSetting(config.PortalID, config.Service + "_APISecret", config.APISecret);
-            PortalController.UpdatePortalSetting(config.PortalID, config.Service + "_Auth0Domain", config.Auth0Domain);
-            PortalController.UpdatePortalSetting(config.PortalID, config.Service + "_Enabled", config.Enabled.ToString(CultureInfo.InvariantCulture));
-            ClearConfig(config.Service, config.PortalID);
+            PortalController.UpdatePortalSetting(config.PortalID, _Service + _ClientId, config.ClientId);
+            PortalController.UpdatePortalSetting(config.PortalID, _Service + _ClientSecret, config.ClientSecret);
+            PortalController.UpdatePortalSetting(config.PortalID, _Service + _ConnectionName, config.ConnectionName);
+            PortalController.UpdatePortalSetting(config.PortalID, _Service + _TenantDomain, config.TenantDomain);
+            PortalController.UpdatePortalSetting(config.PortalID, _Service + _Enabled, config.Enabled.ToString(CultureInfo.InvariantCulture));
+            ClearConfig(config.PortalID);
         }
     }
 }

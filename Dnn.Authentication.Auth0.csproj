@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Dnn.Authentication.Auth0</RootNamespace>
     <AssemblyName>Dnn.Authentication.Auth0</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
     <TargetFrameworkProfile />
     <FileUpgradeFlags>
@@ -49,6 +49,15 @@
     <DocumentationFile>bin\Dnn.Authentication.Auth0.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Auth0.AuthenticationApi, Version=5.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Auth0.AuthenticationApi.5.4.0\lib\net452\Auth0.AuthenticationApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Auth0.Core, Version=5.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Auth0.Core.5.4.0\lib\net452\Auth0.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Auth0.ManagementApi, Version=5.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Auth0.ManagementApi.5.4.0\lib\net452\Auth0.ManagementApi.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetNuke, Version=9.2.0.366, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\DotNetNuke.Core.9.2.0.366\lib\net40\DotNetNuke.dll</HintPath>
       <Private>False</Private>
@@ -61,15 +70,20 @@
       <HintPath>packages\DotNetNuke.Instrumentation.9.2.0.366\lib\net40\DotNetNuke.Log4Net.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DotNetNuke.Web.Client, Version=9.1.1.129, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\DotNetNuke.Web.Client.9.1.1.129\lib\net40\DotNetNuke.Web.Client.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\DotNetNuke.Core.9.2.0.366\lib\net40\Microsoft.ApplicationBlocks.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -84,7 +98,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="dnn-license.txt" />
+    <Content Include="authprovider.css" />
     <Content Include="Images\Auth0-16x16.png" />
     <Content Include="Images\Auth0-32x32.png" />
     <Content Include="license.txt" />
@@ -94,18 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Auth0Client.cs" />
-    <Compile Include="Components\Auth0ClientBase.cs" />
     <Compile Include="Components\Auth0ConfigBase.cs" />
-    <Compile Include="Components\Auth0LoginBase.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Components\Auth0SettingsBase.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Components\Auth0UserData.cs" />
-    <Compile Include="Components\AuthExtensions.cs" />
-    <Compile Include="Components\QueryParameter.cs" />
-    <Compile Include="Components\QueryParameterComparer.cs" />
     <Compile Include="Login.ascx.cs">
       <DependentUpon>Login.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

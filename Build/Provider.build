@@ -16,8 +16,9 @@
       <TextFiles Include="*.txt" Exclude="license.txt;releasenotes.txt;dnn-license.txt" />
       <Images Include="Images\*.*" />
       <Views Include="*.ascx" />
+	  <Styles Include="*.css" />
       <ResourceFiles Include="App_LocalResources\*.resx" />
-      <Resources Include="@(ResourceFiles);@(Images);@(Views);@(Controls);@(TextFiles)" />
+      <Resources Include="@(ResourceFiles);@(Images);@(Views);@(Controls);@(TextFiles);*(Styles)" />
     </ItemGroup>
   </Target>
   <Target Name="CopyBin">
@@ -27,6 +28,7 @@
   </Target>
   <Target Name="DebugProject" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <Copy SourceFiles="@(Views)" DestinationFolder="$(WebsitePath)\DesktopModules\AuthenticationServices\Auth0" />
+    <Copy SourceFiles="@(Styles)" DestinationFolder="$(WebsitePath)\DesktopModules\AuthenticationServices\Auth0" />
     <Copy SourceFiles="@(Images)" DestinationFolder="$(WebsitePath)\DesktopModules\AuthenticationServices\Auth0\Images" />
     <Copy SourceFiles="@(ResourceFiles)" DestinationFolder="$(WebsitePath)\DesktopModules\AuthenticationServices\Auth0\App_LocalResources" />
   </Target>
