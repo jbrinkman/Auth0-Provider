@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="authprovider.css" />
+    <Content Include="dnn-license.txt" />
     <Content Include="Images\Auth0-16x16.png" />
     <Content Include="Images\Auth0-32x32.png" />
     <Content Include="license.txt" />
@@ -109,6 +110,9 @@
   <ItemGroup>
     <Compile Include="Components\Auth0Client.cs" />
     <Compile Include="Components\Auth0ConfigBase.cs" />
+    <Compile Include="Components\Auth0SettingsBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Login.ascx.cs">
       <DependentUpon>Login.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
