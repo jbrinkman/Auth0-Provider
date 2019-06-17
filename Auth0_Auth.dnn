@@ -31,6 +31,18 @@
               <path>bin</path>
               <name>Dnn.Authentication.Auth0.dll</name>
             </assembly>
+            <assembly>
+              <path>bin</path>
+              <name>Auth0.AuthenticationApi.dll</name>
+            </assembly>
+            <assembly>
+              <path>bin</path>
+              <name>Auth0.Core.dll</name>
+            </assembly>
+            <assembly>
+              <path>bin</path>
+              <name>Auth0.ManagementApi.dll</name>
+            </assembly>
           </assemblies>
         </component>
         <component type="File">
