@@ -12,8 +12,6 @@ namespace Dnn.Authentication.Auth0.Components
     {
         protected PropertyEditorControl SettingsEditor;
 
-        protected virtual string AuthSystemApplicationName { get { return String.Empty; } }
-
         public override void UpdateSettings()
         {
             if (SettingsEditor.IsValid && SettingsEditor.IsDirty)
@@ -25,7 +23,7 @@ namespace Dnn.Authentication.Auth0.Components
 
         protected override void OnLoad(EventArgs e)
         {
-            Auth0ConfigBase config = Auth0ConfigBase.GetConfig(AuthSystemApplicationName, PortalId);
+            Auth0ConfigBase config = Auth0ConfigBase.GetConfig(PortalId);
             SettingsEditor.DataSource = config;
             SettingsEditor.DataBind();
         }

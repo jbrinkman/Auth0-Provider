@@ -20,8 +20,6 @@ namespace Dnn.Authentication.Auth0.Components
         private const string _Scope = "openid profile email";
         private const string _OAuthCodeKey = "code";
         private const string _Service = "Auth0";
-        //private const string _AuthTokenName = "Auth0UserToken";
-        //private const string _OAuthTokenKey = "oauth_token";
 
         private AccessTokenResponse TokenResponse { get; set; }
 
@@ -62,7 +60,8 @@ namespace Dnn.Authentication.Auth0.Components
                 .WithResponseType(AuthorizationResponseType.Code)
                 .WithClient(Config.ClientId)
                 .WithRedirectUrl(RedirectUrl)
-                .WithScope(_Scope);
+                .WithScope(_Scope)
+                .WithState("abc123");
 
             var authorizationUrl = string.IsNullOrEmpty(Config.ConnectionName) ? authBuilder.Build() : authBuilder.WithConnection(Config.ConnectionName).Build();
 
