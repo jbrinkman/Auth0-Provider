@@ -30,7 +30,7 @@ namespace Dnn.Authentication.Auth0
         public void AddEventLog(string username, int userId, string portalName, string ip, EventLogType logType, string message)
         {
             //initialize log record
-            var objSecurity = PortalSecurity.Instance;
+            var objSecurity = new PortalSecurity();
             var log = new LogInfo
             {
                 LogTypeKey = logType.ToString(),
@@ -43,7 +43,8 @@ namespace Dnn.Authentication.Auth0
             log.AddProperty("Message", message);
 
             //create log record
-            LogController.Instance.AddLog(log);
+            var logctr = new LogController();
+            logctr.AddLog(log);
         }
 
         protected override void OnInit(EventArgs e)

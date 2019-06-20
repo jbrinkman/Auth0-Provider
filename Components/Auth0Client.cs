@@ -9,6 +9,8 @@ using DotNetNuke.Services.Authentication.OAuth;
 using DotNetNuke.Services.Localization;
 using System;
 using System.Collections.Specialized;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using Auth0UserInfo = Auth0.AuthenticationApi.Models.UserInfo;
@@ -60,8 +62,8 @@ namespace Dnn.Authentication.Auth0.Components
                 .WithResponseType(AuthorizationResponseType.Code)
                 .WithClient(Config.ClientId)
                 .WithRedirectUrl(RedirectUrl)
-                .WithScope(_Scope)
-                .WithState("abc123");
+                .WithScope(_Scope);
+                //.WithState("abc123");
 
             var authorizationUrl = string.IsNullOrEmpty(Config.ConnectionName) ? authBuilder.Build() : authBuilder.WithConnection(Config.ConnectionName).Build();
 
@@ -151,7 +153,7 @@ namespace Dnn.Authentication.Auth0.Components
             }
             if ((objUserInfo == null || (string.IsNullOrEmpty(objUserInfo.Profile.GetPropertyValue("PreferredLocale")))) && !string.IsNullOrEmpty(user.Locale))
             {
-                if (LocaleController.IsValidCultureName(user.Locale.Replace('_', '-')))
+                if (IsValidCultureName(user.Locale.Replace('_', '-')))
                 {
                     profileProperties.Add("PreferredLocale", user.Locale.Replace('_', '-'));
                 }
@@ -173,5 +175,12 @@ namespace Dnn.Authentication.Auth0.Components
             onAuthenticated(eventArgs);
         }
 
+        private bool IsValidCultureName(string name)
+        {
+            return
+                CultureInfo
+                .GetCultures(CultureTypes.SpecificCultures)
+                .Any(c => c.Name == name);
+        }
     }
 }
