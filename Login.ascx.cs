@@ -1,4 +1,5 @@
 ﻿using Dnn.Authentication.Auth0.Components;
+using Dnn.Authentication.Auth0.Helpers;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Security;
@@ -88,20 +89,24 @@ namespace Dnn.Authentication.Auth0
         {
             if (Client.HaveVerificationCode())
             {
-                // Step 2: The app has redirected back with an Auth0 Code that can 
+                // Step 2: Validate that the state is the same as what was stored in the 
+                // CSRF cookie. Validation failures will throw exceptions.
+                AntiForgery.ValidateTokens(Request);
+                
+                // Step 3: The app has redirected back with an Auth0 Code that can 
                 // be used for retrieving a Bearer Token from Auth0.
                 AuthorisationResult result = await Client.ExchangeCodeForTokenAsync();
 
                 switch (result)
                 {
                     case AuthorisationResult.Authorized:
-                        // Step 3: We now have a token and can use that to get the
+                        // Step 4: We now have a token and can use that to get the
                         // user profile data from Auth0. The profile data we have 
                         // access to is controlled by the scope passed in the original
                         // authorization request.
                         Auth0UserInfo user = await Client.GetCurrentUserAsync();
 
-                        // Step 4: We need to take the authenticated user profile and use it to 
+                        // Step 5: We need to take the authenticated user profile and use it to 
                         // find the corresponding DNN User. If the user does not exist,
                         // we create the user and authorize the user according to the portal settings.
                         Client.AuthenticateDnnUser(user, PortalSettings, IPAddress, base.OnUserAuthenticated);
@@ -124,7 +129,7 @@ namespace Dnn.Authentication.Auth0
             // This will redirect the browser to the Universal Login page.
             // Once the login is completed, the user will be redirected back
             // to the DNN Login page which will pick up processing in the OnLoad event
-            Client.Authorize();
+            Client.Authorize(Response, Request.IsSecureConnection);
         }
     }
 }

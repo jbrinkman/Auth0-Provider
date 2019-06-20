@@ -106,6 +106,8 @@
     <Compile Include="Components\Auth0SettingsBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Helpers\Antiforgery.cs" />
+    <Compile Include="Helpers\HttpAntiForgeryException.cs" />
     <Compile Include="Login.ascx.cs">
       <DependentUpon>Login.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

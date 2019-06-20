@@ -1,5 +1,6 @@
 ﻿using Auth0.AuthenticationApi;
 using Auth0.AuthenticationApi.Models;
+using Dnn.Authentication.Auth0.Helpers;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
@@ -53,8 +54,10 @@ namespace Dnn.Authentication.Auth0.Components
             return !string.IsNullOrEmpty(TokenResponse?.AccessToken);
         }
 
-        public void Authorize()
+        public void Authorize(HttpResponse Response, bool IsSecure)
         {
+            var cookie = AntiForgery.GenerateCookie(IsSecure);
+            
             //TODO: Verify that we have a valid domain defined
             var apiClient = new AuthenticationApiClient(Config.TenantDomain);
 
@@ -62,12 +65,14 @@ namespace Dnn.Authentication.Auth0.Components
                 .WithResponseType(AuthorizationResponseType.Code)
                 .WithClient(Config.ClientId)
                 .WithRedirectUrl(RedirectUrl)
-                .WithScope(_Scope);
-                //.WithState("abc123");
+                .WithScope(_Scope)
+                .WithState(cookie.Value);
 
+            
             var authorizationUrl = string.IsNullOrEmpty(Config.ConnectionName) ? authBuilder.Build() : authBuilder.WithConnection(Config.ConnectionName).Build();
+            Response.Cookies.Set(cookie);
 
-            HttpContext.Current.Response.Redirect(authorizationUrl.ToString(), true);
+            Response.Redirect(authorizationUrl.ToString(), true);
 
         }
 
