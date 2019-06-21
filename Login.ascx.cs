@@ -89,37 +89,46 @@ namespace Dnn.Authentication.Auth0
         {
             if (Client.HaveVerificationCode())
             {
-                // Step 2: Validate that the state is the same as what was stored in the 
-                // CSRF cookie. Validation failures will throw exceptions.
-                AntiForgery.ValidateTokens(Request);
-                
-                // Step 3: The app has redirected back with an Auth0 Code that can 
-                // be used for retrieving a Bearer Token from Auth0.
-                AuthorisationResult result = await Client.ExchangeCodeForTokenAsync();
-
-                switch (result)
+                try
                 {
-                    case AuthorisationResult.Authorized:
-                        // Step 4: We now have a token and can use that to get the
-                        // user profile data from Auth0. The profile data we have 
-                        // access to is controlled by the scope passed in the original
-                        // authorization request.
-                        Auth0UserInfo user = await Client.GetCurrentUserAsync();
+                    // Step 2: Validate that the state is the same as what was stored in the 
+                    // CSRF cookie. Validation failures will throw exceptions.
+                    AntiForgery.ValidateTokens(Request);
 
-                        // Step 5: We need to take the authenticated user profile and use it to 
-                        // find the corresponding DNN User. If the user does not exist,
-                        // we create the user and authorize the user according to the portal settings.
-                        Client.AuthenticateDnnUser(user, PortalSettings, IPAddress, base.OnUserAuthenticated);
-                        break;
+                    // Step 3: The app has redirected back with an Auth0 Code that can 
+                    // be used for retrieving a Bearer Token from Auth0.
+                    AuthorisationResult result = await Client.ExchangeCodeForTokenAsync();
+
+                    switch (result)
+                    {
+                        case AuthorisationResult.Authorized:
+                            // Step 4: We now have a token and can use that to get the
+                            // user profile data from Auth0. The profile data we have 
+                            // access to is controlled by the scope passed in the original
+                            // authorization request.
+                            Auth0UserInfo user = await Client.GetCurrentUserAsync();
+
+                            // Step 5: We need to take the authenticated user profile and use it to 
+                            // find the corresponding DNN User. If the user does not exist,
+                            // we create the user and authorize the user according to the portal settings.
+                            Client.AuthenticateDnnUser(user, PortalSettings, IPAddress, base.OnUserAuthenticated);
+                            break;
 
 
-                    case AuthorisationResult.Denied:
-                        Skin.AddModuleMessage(this, Localization.GetString("PrivateConfirmationMessage", Localization.SharedResourceFile), ModuleMessage.ModuleMessageType.YellowWarning);
-                        AddEventLog("unknown user", Null.NullInteger, PortalSettings.PortalName, IPAddress, EventLogType.LOGIN_FAILURE, "Unable to get token");
-                        break;
-                    default:
-                        break;
+                        case AuthorisationResult.Denied:
+                            Skin.AddModuleMessage(this, Localization.GetString("PrivateConfirmationMessage", Localization.SharedResourceFile), ModuleMessage.ModuleMessageType.YellowWarning);
+                            AddEventLog("unknown user", Null.NullInteger, PortalSettings.PortalName, IPAddress, EventLogType.LOGIN_FAILURE, "Unable to get token");
+                            break;
+                        default:
+                            break;
+                    }
+
                 }
+                catch (Exception ex)
+                {
+                    (new ExceptionLogController()).AddLog(ex);
+                }
+
             }
         }
 

@@ -8,6 +8,7 @@ using DotNetNuke.Security.Membership;
 using DotNetNuke.Services.Authentication;
 using DotNetNuke.Services.Authentication.OAuth;
 using DotNetNuke.Services.Localization;
+using DotNetNuke.Services.Log.EventLog;
 using System;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -56,9 +57,11 @@ namespace Dnn.Authentication.Auth0.Components
 
         public void Authorize(HttpResponse Response, bool IsSecure)
         {
+            Requires.PropertyNotNullOrEmpty("Config", "TenantDomain", Config.TenantDomain);
+            Requires.PropertyNotNullOrEmpty("Config", "ClientId", Config.ClientId);
+
             var cookie = AntiForgery.GenerateCookie(IsSecure);
             
-            //TODO: Verify that we have a valid domain defined
             var apiClient = new AuthenticationApiClient(Config.TenantDomain);
 
             var authBuilder = apiClient.BuildAuthorizationUrl()
@@ -92,7 +95,7 @@ namespace Dnn.Authentication.Auth0.Components
             }
             catch (AggregateException ex)
             {
-                // TODO: Handle token error
+                (new ExceptionLogController()).AddLog(ex);
             }
 
             return (TokenResponse == null) ? AuthorisationResult.Denied : AuthorisationResult.Authorized;
