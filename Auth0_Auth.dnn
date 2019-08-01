@@ -79,6 +79,42 @@
             </file>
           </files>
         </component>
+        <component type="Config">
+          <config>
+            <configFile>web.config</configFile>
+            <install>
+              <configuration>
+                <nodes>
+                  <node path="/configuration/appSettings" action="update" key="key" collision="save">
+                    <add key="aspnet:UseTaskFriendlySynchronizationContext" value="true" />
+                  </node>
+                  <node path="/configuration/runtime/ab:assemblyBinding" 
+                        action="update" 
+                        collision="save" 
+                        targetpath="/configuration/runtime/ab:assemblyBinding/ab:dependentAssembly[ab:assemblyIdentity/@name='Newtonsoft.Json'][ab:assemblyIdentity/@publicKeyToken='30ad4fe6b2a6aeed']" 
+                        nameSpace="urn:schemas-microsoft-com:asm.v1" 
+                        nameSpacePrefix="ab">
+                    <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
+                      <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" />
+                      <bindingRedirect oldVersion="0.0.0.0-10.0.0.0" newVersion="10.0.0.0"/>
+                    </dependentAssembly>
+                  </node>
+                </nodes>
+              </configuration>
+            </install>
+            <uninstall>
+              <configuration>
+                <nodes >
+                  <node path="/configuration/system.webServer/modules/add[@name='Glimpse']" action="remove" />
+                  <node path="/configuration/system.webServer/handlers/add[@name='Glimpse']" action="remove" />
+                  <node path="/configuration/configSections/section[@name='glimpse']" action="remove" />
+                  <node path="/configuration/system.web/trace" action="remove" />
+                  <node path="/configuration/glimpse" action="remove" />
+                </nodes>
+              </configuration>
+            </uninstall>
+          </config>
+        </component>
       </components>
     </package>
   </packages>
